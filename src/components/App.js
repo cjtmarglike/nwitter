@@ -24,7 +24,6 @@ function App() {
       {init ? <AppRouter isLoggedIn={isLoggedIn} userObj={userObj}/> : "initializing..."}
       {/* &copy: copyright 기호 출력 */}
       {/* JSX에 자바스크립트 코드 삽입 시 코드를 중괄호로 감싸기 */}
-      <footer>&copy; {new Date().getFullYear()} Nwitter</footer>
     </>
   );
 }

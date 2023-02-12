@@ -1,4 +1,4 @@
-import { dbService } from "fbase";
+import { dbService, storageService } from "fbase";
 import { useState } from "react";
 
 const Nweet = ({ nweetObj, isOwner }) => {
@@ -9,6 +9,9 @@ const Nweet = ({ nweetObj, isOwner }) => {
         const ok = window.confirm("삭제하시겠습니까?");
         if (ok) {
             await dbService.doc(`nweets/${nweetObj.id}`).delete(); // ES6 템플릿 리터럴 문법
+            if (nweetObj.attachmentUrl !== "") {
+                await storageService.refFromURL(nweetObj.attachmentUrl).delete();
+            }
         } 
     };
 
@@ -41,6 +44,9 @@ const Nweet = ({ nweetObj, isOwner }) => {
             ) : (
                 <>
                     <h4>{nweetObj.text}</h4>
+                    {nweetObj.attachmentUrl && (
+                        <img alt="img" src={nweetObj.attachmentUrl} width="50px" height="50px" />
+                    )}
                     {isOwner && (
                         <>
                             <button onClick={onDeleteClick}>Delete Nweet</button>
