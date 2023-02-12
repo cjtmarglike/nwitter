@@ -22,19 +22,22 @@ const Home = ({ userObj }) => {
         // getNweets();
 
         // onSnapshot 함수 적용
-        dbService.collection("nweets").onSnapshot((snapshot) => {
+        dbService
+            .collection("nweets")
+            .orderBy("createdAt", "desc")
+            .onSnapshot((snapshot) => {
             const newArray = snapshot.docs.map((document) => ({
                 id: document.id,
                 ...document.data(),
-            })).sort((a, b) => b.createdAt - a.createdAt);
+            }));
             setNweets(newArray);
         });
     }, []);
 
     return (
-        <>
+        <div className="container">
             <NweetFactory userObj={userObj} />
-            <div>
+            <div style={{ marginTop: 30 }}>
                 {nweets.map((nweet) => (
                   <Nweet
                     key={nweet.id} 
@@ -43,7 +46,7 @@ const Home = ({ userObj }) => {
                     />
                 ))}
             </div>
-        </>
+        </div>
     );
 };
 
